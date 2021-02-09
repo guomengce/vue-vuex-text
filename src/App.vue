@@ -1,7 +1,7 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <Header :addList="addList" />
+      <Header ref="header" :addList="addList" />
       <List :toDolist="toDolist" :delTodo="delTodo" />
       <Footer :toDolist="toDolist" :allFinishedOr="allFinishedOr" :clearAllFinished="clearAllFinished" />
     </div>
@@ -17,7 +17,7 @@ import Footer from './components/Footer'
 
 // 引入工具类
 // import {readTodos} from './utils/localStorageUtil'
-
+import Pubsub from 'pubsub-js'
 export default {
   name: 'app',
   data () {
@@ -35,22 +35,26 @@ export default {
       }]
     }
   },
+
   components: {
     Header,
     List,
     Footer
   },
+  mounted () {
+    this.$refs.header.$on('addTodo', this.addList)
+    Pubsub.subscribe('delTodo', (msg, token) => {
+      this.delTodo(token);
 
-  computed: {
-    computedIsCheck () {
-      this
-    }
+    })
   },
+
   methods: {
     delTodo (index) {
       this.toDolist.splice(index, 1);
     },
     addList (list) {
+      console.log(list);
       this.toDolist.unshift(list)
     },
 

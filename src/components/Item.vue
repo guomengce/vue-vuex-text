@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Pubsub from 'pubsub-js'
 export default {
   name: "Item",
 
@@ -20,11 +21,13 @@ export default {
       }
     },
     index: Number,
-    delTodo: Function
+    // delTodo: Function
   },
 
   methods: {
-
+    delTodo (index) {
+      Pubsub.publish('delTodo', index)
+    }
   }
 
 }

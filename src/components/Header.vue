@@ -26,7 +26,8 @@ export default {
       }
 
       let todo = { title, isDo: false }
-      this.addList(todo);
+      // this.addList(todo);
+      this.$emit('addTodo', todo);
       this.title = '';
     }
   }
